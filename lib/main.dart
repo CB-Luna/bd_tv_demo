@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:tv_demo/classes/graphql_call.dart';
 import 'package:tv_demo/queries/test_video_query.dart';
+import 'package:tv_demo/ui/pages/setup_page/setup_page.dart';
 import 'package:tv_demo/ui/video_screen.dart';
+import './theme/theme_data.dart';
 
 import 'services/graphql_config.dart';
 
@@ -26,10 +28,9 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'TV Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: const DataCall(query: queryTestVideo, page: videoContent),
+          theme: defaultTheme,
+          // home: const DataCall(query: queryTestVideo, page: videoContent),
+          home: const Scaffold(body: SetupPage()),
         ),
       ),
     );
