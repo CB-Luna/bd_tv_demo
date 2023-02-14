@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:tv_demo/classes/graphql_call.dart';
-import 'package:tv_demo/queries/test_video_query.dart';
-import 'package:tv_demo/ui/video_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tv_demo/helpers/constants.dart';
+import 'package:tv_demo/ui/spinner.dart';
 
-import 'services/graphql_config.dart';
+import 'ui/video_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
   runApp(const MyApp());
 }
 
@@ -21,27 +23,30 @@ class MyApp extends StatelessWidget {
       shortcuts: <LogicalKeySet, Intent>{
         LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent()
       },
-      child: GraphQLProvider(
-        client: GraphQLConfiguration.clientToQuery(),
-        child: MaterialApp(
+      child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'TV Demo',
+          title: 'TV View',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const DataCall(query: queryTestVideo, page: videoContent),
-        ),
-      ),
+          home: Center(child: videoContent(context))),
     );
   }
 }
 
-Widget videoContent(result, context) {
-  var testData = result.data?['pageTestimon']['data']['attributes'];
+Widget videoContent(context) {
+  var videoStream = supabase
+      .from('video_actual_tv_view')
+      .stream(primaryKey: ['tv']).eq('tv', 5);
 
-  //VIDEO
+  return StreamBuilder(
+      stream: videoStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: Spinner());
+        }
+        final videos = snapshot.data!;
 
-  var testVideo = testData['Video']['data']['attributes']['url'];
-
-  return VideoScreen(videoUrl: testVideo);
+        return VideoScreen(videoUrl: videos.first['url_video_actual']);
+      });
 }
