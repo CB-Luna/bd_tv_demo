@@ -31,16 +31,10 @@ class MyApp extends StatelessWidget {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'TV Demo',
+        title: 'TV View',
         theme: defaultTheme,
-        // home: const DataCall(query: queryTestVideo, page: videoContent),
-        home: const Scaffold(body: SetupPage()),
-
-        // title: 'TV View',
-        // theme: ThemeData(
-        //   primarySwatch: Colors.blue,
-        // ),
-        // home: Center(child: videoContent(context))),
+        home: const Scaffold(body: SetupPage()), // SETUP PAGE
+        // home: Center(child: videoContent(context)),   // VIDEO VIEW
       ),
     );
   }
