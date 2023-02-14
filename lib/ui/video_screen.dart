@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import '../services/graphql_config.dart';
-
 class VideoScreen extends StatefulWidget {
   final dynamic videoUrl;
   const VideoScreen({Key? key, required this.videoUrl}) : super(key: key);
@@ -17,7 +15,7 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(setPath(widget.videoUrl))
+    _controller = VideoPlayerController.network(widget.videoUrl)
       ..initialize().then((_) {
         _controller.play();
         _controller.setLooping(true);
