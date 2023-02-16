@@ -25,7 +25,7 @@ class SetupPage extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 600),
-              child: const SectionArea(),
+              child: const ScreenHolder(),
             ),
           ),
         ));
@@ -40,8 +40,25 @@ class ScreenHolder extends StatefulWidget {
 }
 
 class _ScreenHolderState extends State<ScreenHolder> {
+  String _currentSection = "area";
+  String _titulo = "Bienvenido";
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+  }
+
+  void _changeSection() {
+    setState(() {
+      _currentSection = _currentSection == "area" ? "type" : "area";
+      print(_currentSection);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return _currentSection == "area"
+        ? SectionArea(stateChanger: _changeSection)
+        : SectionType(stateChanger: _changeSection);
   }
 }

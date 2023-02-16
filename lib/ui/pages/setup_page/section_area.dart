@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tv_demo/ui/pages/setup_page/widgets/dropdown.dart';
 
 class SectionArea extends StatelessWidget {
-  const SectionArea({super.key});
+  dynamic stateChanger;
+
+  SectionArea({super.key, this.stateChanger});
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +52,7 @@ class SectionArea extends StatelessWidget {
         const SizedBox(height: 30),
         const DropdownAreas(),
         const SizedBox(height: 100),
-        ElevatedButton(
-            onPressed: () {},
-            onFocusChange: (f) {
-              print(f);
-            },
-            child: const Text("Continuar")),
+        ElevatedButton(onPressed: stateChanger, child: const Text("Continuar")),
       ],
     );
   }
