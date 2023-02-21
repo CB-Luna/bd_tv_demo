@@ -59,6 +59,6 @@ class _ScreenHolderState extends State<ScreenHolder> {
   Widget build(BuildContext context) {
     return _currentSection == "area"
         ? SectionArea(stateChanger: _changeSection)
-        : SectionType(stateChanger: _changeSection);
+        : SectionType(stateChanger: _changeSection,Area: "Contabilidad",IdTv: 9,);
   }
 }

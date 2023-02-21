@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:tv_demo/ui/pages/setup_page/widgets/dropdown.dart';
+
+import '../../../helpers/constants.dart';
+import '../../../model/areas_trabajo_model.dart';
 
 class SectionArea extends StatelessWidget {
   dynamic stateChanger;
 
-  SectionArea({super.key, this.stateChanger});
+  SectionArea({super.key, this.stateChanger}) {
+    // getAreas();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +57,19 @@ class SectionArea extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
-        const DropdownAreas(),
+        DropdownAreas(),
         const SizedBox(height: 100),
-        ElevatedButton(onPressed: stateChanger, child: const Text("Continuar")),
+        ElevatedButton(
+                onPressed: stateChanger,
+                //() {
+                //   SetupPage();
+                //   SectionType(
+                //       IdTv: IdArea,
+                //       Area: listaAreas
+                //           .map((e) => e.idAreaPk == IdArea ? e.nombreArea : "")
+                //           .toString());
+                // },
+                child: const Text("Continuar")),
       ],
     );
   }
