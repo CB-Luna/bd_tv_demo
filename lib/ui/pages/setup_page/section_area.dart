@@ -3,6 +3,7 @@ import 'package:tv_demo/ui/pages/setup_page/widgets/dropdown.dart';
 
 class SectionArea extends StatelessWidget {
   dynamic stateChanger;
+  String selectedArea = "";
 
   SectionArea({super.key, this.stateChanger});
 

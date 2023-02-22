@@ -5,7 +5,6 @@ import 'package:tv_demo/helpers/constants.dart';
 
 import '../../../../model/areas_trabajo_model.dart';
 
-
 class DropdownAreas extends StatelessWidget {
   const DropdownAreas({super.key});
 
@@ -43,6 +42,9 @@ class DropdownAreas extends StatelessWidget {
               ),
               onChanged: (value) {
                 print(value);
+                // context.visitAncestorElements((element) {
+                //   element.widget!["selected_area"]
+                // });
               },
               items: listaAreas
                   .map((e) => DropdownMenuItem(
