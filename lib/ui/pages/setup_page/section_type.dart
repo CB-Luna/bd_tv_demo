@@ -6,18 +6,28 @@ import 'package:tv_demo/model/areas_trabajo_model.dart';
 import '../../../helpers/constants.dart';
 import '../../../model/televisiones_model.dart';
 
-class SectionType extends StatelessWidget {
+class SectionType extends StatefulWidget {
   dynamic stateChanger;
   dynamic IdTv;
   String Area;
 
   SectionType({super.key, this.stateChanger, this.IdTv, required this.Area});
 
+  @override
+  State<SectionType> createState() => _SectionTypeState();
+}
+
+class _SectionTypeState extends State<SectionType> {
   List<GetTelevisiones> listaTelevisiones = [];
+  int _selectedTV = -1;
+  int _focusedTV = -1;
 
   Future<List<GetTelevisiones>> getTelevisiones() async {
-    final televisiones =
-        await supabase.from("televisores").select("*").eq("area", IdTv).execute();
+    final televisiones = await supabase
+        .from("televisores")
+        .select("*")
+        .eq("area", widget.IdTv)
+        .execute();
     listaTelevisiones = (televisiones.data as List<dynamic>)
         .map((e) => GetTelevisiones.fromJson(jsonEncode(e)))
         .toList();
@@ -35,7 +45,7 @@ class SectionType extends StatelessWidget {
         }
         return WillPopScope(
             onWillPop: () async {
-              stateChanger();
+              widget.stateChanger();
               return false;
             },
             child: Column(
@@ -53,7 +63,7 @@ class SectionType extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       Text(
-                        Area,
+                        widget.Area,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 60,
@@ -68,10 +78,10 @@ class SectionType extends StatelessWidget {
                   const SizedBox(height: 30),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 420),
-                    child: const Text(
-                      'Seleccione uno de los dispositivos disponibles para comedor:',
+                    child: Text(
+                      'Seleccione uno de los dispositivos disponibles para el área de ${widget.Area.toLowerCase()}:',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 19,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -94,49 +104,44 @@ class SectionType extends StatelessWidget {
                                   widthFactor: 0.18,
                                   child: Column(
                                     children: [
-                                      // Icon(
-                                      //     tv["available"]
-                                      //         ? Icons.check_box_outline_blank
-                                      //         : Icons.check_box,
-                                      //     color: tv["available"]
-                                      //         ? Theme.of(context)
-                                      //             .colorScheme
-                                      //             .primary
-                                      //         : Colors.grey,
-                                      //     size: 20),
-                                      // Container(
-                                      //   child: ElevatedButton(
-                                      //       style: ElevatedButton.styleFrom(
-                                      //           backgroundColor: tv["available"]
-                                      //               ? Theme.of(context)
-                                      //                   .colorScheme
-                                      //                   .primary
-                                      //               : Colors.grey),
-                                      //       onPressed: () {},
-                                      //       child: Text(
-                                      //         "TV ${tv["id"]}",
-                                      //         style: const TextStyle(fontSize: 26),
-                                      //       )),
-                                      // ),
                                       Stack(
                                         children: [
                                           const Icon(Icons.tv, size: 100),
                                           Positioned(
-                                              top: -10,
-                                              left: 26,
-                                              child: IconButton(
-                                                  onPressed: () {},
-                                                  hoverColor: Colors.red,
-                                                  icon: tv.encendido
-                                                      ? const Icon(
-                                                          Icons
-                                                              .check_box_outline_blank,
-                                                          color: Colors.grey,
-                                                        )
-                                                      : const Icon(
-                                                          Icons.check_circle,
-                                                          color: Colors.grey,
-                                                        ))),
+                                              top: 34,
+                                              left: 37,
+                                              child: Container(
+                                                child: InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        _selectedTV = tv.id;
+                                                      });
+                                                      print(_selectedTV);
+                                                    },
+                                                    onFocusChange: (v) {
+                                                      if (v) {
+                                                        setState(() {
+                                                          _focusedTV = tv.id;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: tv.id == _selectedTV
+                                                        ? Icon(
+                                                            Icons.check_circle,
+                                                            color: tv.id ==
+                                                                    _focusedTV
+                                                                ? Colors.blue
+                                                                : Colors.grey,
+                                                          )
+                                                        : Icon(
+                                                            Icons
+                                                                .check_box_outline_blank,
+                                                            color: tv.id ==
+                                                                    _focusedTV
+                                                                ? Colors.blue
+                                                                : Colors.grey,
+                                                          )),
+                                              )),
                                         ],
                                       ),
                                       Text(
@@ -152,7 +157,8 @@ class SectionType extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
                   ElevatedButton(
-                      onPressed: stateChanger, child: const Text("Regresar")),
+                      onPressed: widget.stateChanger,
+                      child: const Text("Regresar")),
                   ElevatedButton(
                       onPressed: () {}, child: const Text("Confirmar"))
                 ]));

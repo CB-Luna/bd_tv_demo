@@ -8,9 +8,10 @@ import '../../../model/areas_trabajo_model.dart';
 
 class SectionArea extends StatelessWidget {
   dynamic stateChanger;
+  Function(Map<String, dynamic>) onSelect;
   String selectedArea = "";
 
-  SectionArea({super.key, this.stateChanger}) {
+  SectionArea({super.key, this.stateChanger, required this.onSelect}) {
     // getAreas();
   }
 
@@ -58,19 +59,19 @@ class SectionArea extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
-        DropdownAreas(),
+        DropdownAreas(onSelect: (selected) => onSelect(selected)),
         const SizedBox(height: 100),
         ElevatedButton(
-                onPressed: stateChanger,
-                //() {
-                //   SetupPage();
-                //   SectionType(
-                //       IdTv: IdArea,
-                //       Area: listaAreas
-                //           .map((e) => e.idAreaPk == IdArea ? e.nombreArea : "")
-                //           .toString());
-                // },
-                child: const Text("Continuar")),
+            onPressed: stateChanger,
+            //() {
+            //   SetupPage();
+            //   SectionType(
+            //       IdTv: IdArea,
+            //       Area: listaAreas
+            //           .map((e) => e.idAreaPk == IdArea ? e.nombreArea : "")
+            //           .toString());
+            // },
+            child: const Text("Continuar")),
       ],
     );
   }

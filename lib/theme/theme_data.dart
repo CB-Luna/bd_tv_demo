@@ -6,7 +6,8 @@ const contrast = Color(0xFFf86b18);
 
 ThemeData defaultTheme = ThemeData(
   primaryColor: bgDark,
-  colorScheme: ColorScheme.fromSwatch().copyWith(secondary: contrast),
+  colorScheme:
+      ColorScheme.fromSwatch().copyWith(primary: bgLight, secondary: contrast),
   scaffoldBackgroundColor: bgLight,
   fontFamily: 'sans-serif',
   textTheme: const TextTheme(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tv_demo/ui/pages/setup_page/setup_page.dart';
 import './theme/theme_data.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tv_demo/helpers/constants.dart';
@@ -27,8 +28,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Reproductor TV',
         theme: defaultTheme,
-        //home: const Scaffold(body: SetupPage()), // SETUP PAGE
-        home: const Center(child: VideoPage(idTV: 5)), // VIDEO VIEW
+        home: const Scaffold(body: SetupPage()), // SETUP PAGE
+        // home: const Center(child: VideoPage(idTV: 5)), // VIDEO VIEW
       ),
     );
   }

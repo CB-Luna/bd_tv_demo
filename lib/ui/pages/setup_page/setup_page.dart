@@ -41,6 +41,7 @@ class ScreenHolder extends StatefulWidget {
 
 class _ScreenHolderState extends State<ScreenHolder> {
   String _currentSection = "area";
+  Map<String, dynamic> _selectedArea = {};
   String _titulo = "Bienvenido";
 
   @override
@@ -58,7 +59,17 @@ class _ScreenHolderState extends State<ScreenHolder> {
   @override
   Widget build(BuildContext context) {
     return _currentSection == "area"
-        ? SectionArea(stateChanger: _changeSection)
-        : SectionType(stateChanger: _changeSection,Area: "Contabilidad",IdTv: 9,);
+        ? SectionArea(
+            stateChanger: _changeSection,
+            onSelect: (area) {
+              setState(() {
+                _selectedArea = area;
+              });
+            })
+        : SectionType(
+            stateChanger: _changeSection,
+            Area: _selectedArea["nombre"],
+            IdTv: _selectedArea["id"],
+          );
   }
 }

@@ -6,8 +6,9 @@ import 'package:tv_demo/helpers/constants.dart';
 import '../../../../model/areas_trabajo_model.dart';
 
 class DropdownAreas extends StatelessWidget {
-  dynamic stateChanger;
-  DropdownAreas({super.key, this.stateChanger});
+  Function(Map<String, dynamic>) onSelect;
+
+  DropdownAreas({super.key, required this.onSelect});
 
   late int IdArea;
   dynamic areaNombre;
@@ -55,6 +56,11 @@ class DropdownAreas extends StatelessWidget {
                         areaNombre = area.nombreArea;
                       }
                     }
+
+                    onSelect({
+                      'id': IdArea,
+                      'nombre': areaNombre,
+                    });
 
                     print(IdArea);
                     print(areaNombre);
