@@ -10,27 +10,27 @@ class VideoScreen extends StatefulWidget {
 }
 
 class _VideoScreenState extends State<VideoScreen> {
-  late VideoPlayerController _controller;
+  late VideoPlayerController _controller =
+      VideoPlayerController.network(widget.videoUrl);
 
   @override
   void initState() {
-    super.initState();
     _controller = VideoPlayerController.network(widget.videoUrl)
       ..initialize().then((_) {
         _controller.play();
         _controller.setLooping(true);
         setState(() {});
+
+        super.initState();
       });
   }
 
   @override
   Widget build(BuildContext context) {
-    var video = _controller;
-
     return SizedBox(
-        width: video.value.size.width,
-        height: video.value.size.height,
-        child: VideoPlayer(video));
+        width: _controller.value.size.width,
+        height: _controller.value.size.height,
+        child: VideoPlayer(_controller));
   }
 
   @override

@@ -6,52 +6,67 @@ import 'package:tv_demo/helpers/constants.dart';
 import '../../../../model/areas_trabajo_model.dart';
 
 class DropdownAreas extends StatelessWidget {
-  const DropdownAreas({super.key});
+  dynamic stateChanger;
+  DropdownAreas({super.key, this.stateChanger});
+
+  late int IdArea;
+  dynamic areaNombre;
+
+  List<GetAreasTrabajo> listaAreas = [];
+  Future<List<GetAreasTrabajo>> getAreas() async {
+    final areas = await supabase.from("areas_de_trabajo").select('*').execute();
+    listaAreas = (areas.data as List<dynamic>)
+        .map((e) => GetAreasTrabajo.fromJson(jsonEncode(e)))
+        .toList();
+    return listaAreas;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<GetAreasTrabajo> listaAreas = [];
-    var areas = supabase.from("areas_de_trabajo").select('*');
-
     return FutureBuilder(
-      future: areas,
+      future: getAreas(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(child: Container());
         }
 
-        print(snapshot.data!);
-        // print(areasList);
-        listaAreas = (snapshot.data as List<dynamic>)
-            .map((e) => GetAreasTrabajo.fromJson(jsonEncode(e)))
-            .toList();
+        return Column(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                width: 300,
+                child: DropdownButtonFormField<String>(
+                  hint: const Text(
+                    'Selecciona un área',
+                  ),
+                  icon: const Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                  ),
+                  onChanged: (value) {
+                    //SECCION DONDE SE RESCATA EL ID Y EL NOMBRE DEL AREA
+                    IdArea = int.parse(value.toString());
 
-        return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            width: 300,
-            child: DropdownButtonFormField<String>(
-              hint: const Text(
-                'Selecciona un área',
-              ),
-              icon: const Icon(
-                Icons.keyboard_arrow_down_rounded,
-              ),
-              onChanged: (value) {
-                print(value);
-                // context.visitAncestorElements((element) {
-                //   element.widget!["selected_area"]
-                // });
-              },
-              items: listaAreas
-                  .map((e) => DropdownMenuItem(
-                      value: e.idAreaPk.toString(),
-                      child: Text(e.nombreArea.toString())))
-                  .toList(),
-            ));
+                    for (var area in snapshot.data!) {
+                      if (IdArea == area.idAreaPk) {
+                        areaNombre = area.nombreArea;
+                      }
+                    }
+
+                    print(IdArea);
+                    print(areaNombre);
+                  },
+                  items: listaAreas
+                      .map((e) => DropdownMenuItem(
+                          value: e.idAreaPk.toString(),
+                          child: Text(e.nombreArea.toString())))
+                      .toList(),
+                )),
+          ],
+        );
       },
     );
   }

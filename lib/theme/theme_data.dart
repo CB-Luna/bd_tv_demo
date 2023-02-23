@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-final bgDark = Color(0xFF001f65);
-final bgLight = Color(0xFF4853c1);
-
-final contrast = Color(0xFFf86b18);
+const bgDark = Color(0xFF001f65);
+const bgLight = Color(0xFF4853c1);
+const contrast = Color(0xFFf86b18);
 
 ThemeData defaultTheme = ThemeData(
   primaryColor: bgDark,
