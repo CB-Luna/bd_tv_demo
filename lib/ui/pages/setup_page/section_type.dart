@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tv_demo/model/areas_trabajo_model.dart';
+import 'package:tv_demo/services/local_storage.dart';
+import 'package:tv_demo/ui/pages/video_page/video_page.dart';
 
 import '../../../helpers/constants.dart';
 import '../../../model/televisiones_model.dart';
@@ -160,7 +162,19 @@ class _SectionTypeState extends State<SectionType> {
                       onPressed: widget.stateChanger,
                       child: const Text("Regresar")),
                   ElevatedButton(
-                      onPressed: () {}, child: const Text("Confirmar"))
+                      onPressed: () {
+                        if (_selectedTV != -1) {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => Scaffold(
+                                      body: VideoPage(idTV: _selectedTV))));
+
+                          SPLocalStorage.prefs.setBool("assigned", true);
+                          SPLocalStorage.prefs
+                              .setInt("assignedID", _selectedTV);
+                        }
+                      },
+                      child: const Text("Confirmar"))
                 ]));
       },
     );
