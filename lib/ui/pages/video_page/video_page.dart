@@ -19,6 +19,8 @@ class VideoPage extends StatefulWidget {
 }
 
 class VideoPageState extends State<VideoPage> {
+  bool buttonHovered = false;
+
   late SupabaseStreamBuilder videoStream = supabase
       .from('video_actual_tv_view')
       .stream(primaryKey: ['tv']).eq('tv', widget.idTV);
@@ -62,55 +64,73 @@ class VideoPageState extends State<VideoPage> {
                 videoUrl: videos.first['url_video_actual'],
                 key: UniqueKey(),
               ),
-              Positioned(
+              AnimatedPositioned(
+                  duration: const Duration(milliseconds: 300),
                   top: 30,
-                  left: 0,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const Scaffold(body: SetupPage()),
-                      ));
-                      SPLocalStorage.prefs.setBool("assigned", false);
-                      SPLocalStorage.prefs.setInt("assignedID", -1);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 7,
-                        horizontal: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(15),
-                          bottomRight: Radius.circular(15),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
+                  left: buttonHovered ? 0 : -140,
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onFocusChange: (bool hasFocus) {
+                          print(hasFocus);
+                          setState(() {
+                            buttonHovered = hasFocus;
+                          });
+                        },
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                            builder: (context) =>
+                                const Scaffold(body: SetupPage()),
+                          ));
+                          SPLocalStorage.prefs.setBool("assigned", false);
+                          SPLocalStorage.prefs.setInt("assignedID", -1);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 7,
+                            horizontal: 15,
+                          ),
+                          decoration: BoxDecoration(
                             color: Colors.black.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 20,
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 20,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.arrow_back, color: Colors.white, size: 24),
-                          SizedBox(width: 5),
-                          Text(
-                            "Volver",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w400,
-                                decoration: TextDecoration.none),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.arrow_back,
+                                  color: Colors.white, size: 24),
+                              SizedBox(width: 5),
+                              Text(
+                                "Volver",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w400,
+                                    decoration: TextDecoration.none),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ))
+                      InkWell(
+                        onTap: () {},
+                        child: Container(),
+                      )
+                    ],
+                  )),
             ],
           );
         });
