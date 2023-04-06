@@ -9,6 +9,16 @@ ThemeData defaultTheme = ThemeData(
   colorScheme:
       ColorScheme.fromSwatch().copyWith(primary: bgLight, secondary: contrast),
   scaffoldBackgroundColor: bgLight,
+  inputDecorationTheme: const InputDecorationTheme(
+    labelStyle: TextStyle(color: Colors.white),
+    hintStyle: TextStyle(color: Colors.white),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.white),
+    ),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.white),
+    ),
+  ),
   fontFamily: 'sans-serif',
   textTheme: const TextTheme(
     displayLarge: TextStyle(

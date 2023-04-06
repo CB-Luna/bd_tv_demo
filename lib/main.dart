@@ -11,7 +11,11 @@ import 'ui/pages/video_page/video_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SPLocalStorage.configurePrefs();
-  await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
+  String sb_url = SPLocalStorage.prefs.getString("sb_url") ?? "";
+  String sb_key = SPLocalStorage.prefs.getString("sb_key") ?? "";
+  if (sb_url != "" && sb_key != "") {
+    await Supabase.initialize(url: sb_url, anonKey: sb_key);
+  }
   runApp(const MyApp());
 }
 
@@ -39,3 +43,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+/// VARIABLES DE SHAREDPREFERENCES
+/// assigned: bool (demuestra si ya se ha asignado una TV)
+/// assignedID: int (id de la TV asignada)
+/// sb_url: String (url de supabase asignada)
+/// sb_key: String (anonKey de supabase asignada)

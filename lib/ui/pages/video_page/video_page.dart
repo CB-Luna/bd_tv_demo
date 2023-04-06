@@ -64,8 +64,8 @@ class VideoPageState extends State<VideoPage> {
                 videoUrl: videos.first['url_video_actual'],
                 key: UniqueKey(),
               ),
-              AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
+              Positioned(
+                  // duration: const Duration(milliseconds: 300),
                   top: 30,
                   left: buttonHovered ? 0 : -140,
                   child: Column(

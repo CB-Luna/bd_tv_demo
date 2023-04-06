@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tv_demo/ui/pages/setup_page/section_url.dart';
 import '../../../theme/theme_data.dart';
 import './section_area.dart';
 import './section_type.dart';
@@ -40,7 +41,7 @@ class ScreenHolder extends StatefulWidget {
 }
 
 class _ScreenHolderState extends State<ScreenHolder> {
-  String _currentSection = "area";
+  String _currentSection = "url";
   Map<String, dynamic> _selectedArea = {};
   String _titulo = "Bienvenido";
 
@@ -49,27 +50,43 @@ class _ScreenHolderState extends State<ScreenHolder> {
     super.setState(fn);
   }
 
-  void _changeSection() {
+  void _changeSection(bool? back) {
     setState(() {
-      _currentSection = _currentSection == "area" ? "type" : "area";
+      if (back == true) {
+        _currentSection = _currentSection == "type"
+            ? "area"
+            : _currentSection == "area"
+                ? "url"
+                : "area";
+      } else {
+        _currentSection = _currentSection == "url"
+            ? "area"
+            : _currentSection == "area"
+                ? "type"
+                : "area";
+      }
       print(_currentSection);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return _currentSection == "area"
-        ? SectionArea(
+    return _currentSection == "url"
+        ? SectionUrl(
             stateChanger: _changeSection,
-            onSelect: (area) {
-              setState(() {
-                _selectedArea = area;
-              });
-            })
-        : SectionType(
-            stateChanger: _changeSection,
-            Area: _selectedArea["nombre"],
-            IdTv: _selectedArea["id"],
-          );
+          )
+        : _currentSection == "area"
+            ? SectionArea(
+                stateChanger: _changeSection,
+                onSelect: (area) {
+                  setState(() {
+                    _selectedArea = area;
+                  });
+                })
+            : SectionType(
+                stateChanger: _changeSection,
+                Area: _selectedArea["nombre"],
+                IdTv: _selectedArea["id"],
+              );
   }
 }

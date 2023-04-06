@@ -9,7 +9,7 @@ import '../../../helpers/constants.dart';
 import '../../../model/televisiones_model.dart';
 
 class SectionType extends StatefulWidget {
-  dynamic stateChanger;
+  Function(bool?)? stateChanger;
   dynamic IdTv;
   String Area;
 
@@ -47,7 +47,7 @@ class _SectionTypeState extends State<SectionType> {
         }
         return WillPopScope(
             onWillPop: () async {
-              widget.stateChanger();
+              widget.stateChanger!(true);
               return false;
             },
             child: Column(
@@ -159,7 +159,9 @@ class _SectionTypeState extends State<SectionType> {
                   ),
                   const SizedBox(height: 30),
                   ElevatedButton(
-                      onPressed: widget.stateChanger,
+                      onPressed: () {
+                        widget.stateChanger!(true);
+                      },
                       child: const Text("Regresar")),
                   ElevatedButton(
                       onPressed: () {
